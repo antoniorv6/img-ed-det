@@ -74,11 +74,11 @@ def dilate(image, k=9):
 
 
 def rotate90(img):
-    return cv2.rotate(img, cv2.cv2.ROTATE_90_CLOCKWISE)
+    return cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
 
 
 def rotate180(img):
-    return cv2.rotate(img, cv2.cv2.ROTATE_180)
+    return cv2.rotate(img, cv2.ROTATE_180)
 
 
 def none(image):

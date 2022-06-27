@@ -127,21 +127,22 @@ class DataGenerator:
         )
         return editions
 
-    def generate_image(self, n_images=None):
+    def generate_image(self, n_images=None, augment=True):
         images = [self.read_image(self.next()) for _ in range(n_images or np.random.randint(self.min_pairs, self.max_pairs+1))]
         source_images = images
 
         # First edition pass
-        edition_process = np.random.binomial(1, 0.5, len(self.augmentations))
-        edition_process = np.arange(len(edition_process))[
-            edition_process.astype(np.bool)
-        ]
-        for i in edition_process:
-            source_images = [getattr(distortions, self.augmentations[i])(im) for im in source_images]
+        if augment:
+            edition_process = np.random.binomial(1, 0.5, len(self.augmentations))
+            edition_process = np.arange(len(edition_process))[
+                edition_process.astype(np.bool)
+            ]
+            for i in edition_process:
+                source_images = [getattr(distortions, self.augmentations[i])(im) for im in source_images]
 
         editions = self.get_random_edit_sequence()
 
-        edited_images = source_images
+        edited_images = source_images.copy()
         for edit in editions:
             edited_images = [getattr(distortions, self.distortions[edit])(img) for img in edited_images]
 
